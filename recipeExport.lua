@@ -1,6 +1,5 @@
 recipeExport = CreateFrame"Frame"
-recipeExport.profName = GetTradeSkillLine()
-recipeExport.sitseUrl = 'http://www.wowhead.com'
+recipeExport.siteUrl = 'http://www.wowhead.com'
 recipeExport.recipieUrl = recipeExport.siteUrl..'?spell='
 recipeExport.template = {
  bbcode = {
@@ -81,7 +80,7 @@ function recipeExport:createTextArea(txt)
   report.Box:HighlightText();  
 end
 
-SLASH_TRADESKILL1 = "/recipeExport";
+SLASH_TRADESKILL1 = "/tradex";
 SLASH_TRADESKILL2 = "/rex";
 SlashCmdList["TRADESKILL"] = function()
  local txt = recipeExport:renderTradeList()
