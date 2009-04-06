@@ -3,7 +3,7 @@
 ## Version : v0.01
 ## Notes: allows you to export a list of recipies your toon can craft. choice of output formats.
 ## Author: airtonix@gmail.com
-## X-git : 
-
+## X-git.git : git@github.com:airtonix/recipeexport.git
+## X-git.url : http://github.com/airtonix/recipeexport/tree
 
 recipeExport.lua
