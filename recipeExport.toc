@@ -1,6 +1,9 @@
 ## Interface: 30000
 ## Title: recipeExport
+## Version : v0.01
 ## Notes: allows you to export a list of recipies your toon can craft. choice of output formats.
-## Author: airtonix
+## Author: airtonix@gmail.com
+## X-git : 
+
 
 recipeExport.lua
