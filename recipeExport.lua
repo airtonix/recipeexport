@@ -3,10 +3,23 @@ recipeExport.siteUrl = 'http://www.wowhead.com'
 recipeExport.recipieUrl = recipeExport.siteUrl..'?spell='
 recipeExport.template = {
  bbcode = {
+   book			= "[b][size=12pt]%s[/size][/b][i]%s/%s[/i]\n",
    header		= "[b]%s[/b]\n",
    item			= "[url=%s%s]%s[/url]\n",
-   book			= "[b][size=12pt]%s[/size][/b][i]%s/%s[/i]\n"
- }
+   color			= "[color=%s]%s[/color]",
+ },
+ html = {
+   book			= "<h3>%s</h3><i>%s/%s</i>\n",
+   header		= "<h4>%s</h4>\n",
+   item			= "<a href='%s%s'>%s</a>\n",
+   color			= "<span style='font-color:%s;'>%s</span>",
+ },
+ markdown = {
+   book			= "### %s\n\n*%s/%s*\n",
+   header		= "#### %s\n\n",
+   item			= "[%s](".. recipeExport.recipieUrl .."%s)\n",
+   color			= "%s %s",
+ },
 }
 
 function recipeExport:renderTradeList()
@@ -45,7 +58,7 @@ function recipeExport:createTextArea(txt)
   report:SetWidth(800);
   report:SetBackdrop({bgFile = "Interface/Tooltips/UI-Tooltip-Background",
     edgeFile = "Interface/Tooltips/UI-Tooltip-Border",
-    tile = true, tileSize = 32, edgeSize = 32,
+    tile = true, tileSize = 16, edgeSize = 16,
     insets = { left = 9, right = 9, top = 9, bottom = 9 }
  });
   report:SetBackdropColor(0, 0, 0, 0.8);
