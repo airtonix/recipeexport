@@ -2,12 +2,22 @@ recipeExport = CreateFrame"Frame"
 recipeExport:RegisterEvent("TRADE_SKILL_SHOW")
 recipeExport.siteUrl = 'http://www.wowhead.com'
 recipeExport.recipieUrl = recipeExport.siteUrl..'?spell='
+recipeExport.rarity={
+ "#9d9d9d",
+ "#ffffff",
+ "#1eff00",
+ "#0070dd",
+ "#a335ee",
+ "#ff8000",
+ "#e6cc80",
+ "#e6cc80",
+}
 recipeExport.template = {
  bbcode = {
    book			= "[b][size=12pt]%s[/size][/b][i]%s/%s[/i]\n",
    header		= "\n[b]%s[/b]\n",
    item			= "[url=%s%s]%s[/url]\n",
-   color			= "[color=%s]%s[/color]",
+   color			= "[color=%s][%s][/color]",
  },
  html = {
    book			= "<h3>%s</h3><i>%s/%s</i>\n",
@@ -24,7 +34,7 @@ recipeExport.template = {
 }
 
 function exportTradeList()
- local txt = recipeExport:renderTradeList()
+ local txt = recipeExport:renderTradeList(0)
  if not txt then print("No text provided, exiting."); return end
  local window = recipeExport.window
 		   window.editor:SetText(txt)
@@ -50,12 +60,11 @@ function recipeExport.trade_skill_show()
 	end
 end
 
-function recipeExport:renderTradeList()
+function recipeExport:renderTradeList(iLevelThreshold)
  local tradeSkillsNum, name, type
  local template = self.template['bbcode']
- local tradeSkillName, currentLevel, maxLevel = GetTradeSkillLine();
+	 local tradeSkillName, currentLevel, maxLevel = GetTradeSkillLine();
  if(tradeSkillName =="UNKNOWN")then print("Tradeskill Window Not Open.");return end
- 
  local output = format(template.book,tradeSkillName,currentLevel,maxLevel)
 
  for i=1,GetNumTradeSkills() do
@@ -63,9 +72,17 @@ function recipeExport:renderTradeList()
   if (name and type == "header") then
    output = output .. format(template.header, name)
   else
-   local link = GetTradeSkillRecipeLink(i)
-   local spellId = link:gmatch("enchant:(.*)[[]")();
-   output = output .. format( template.item, self.recipieUrl, spellId, name)
+	local link = GetTradeSkillRecipeLink(i)
+	local item = GetTradeSkillItemLink(i)
+	if(item)then
+		local _,_,itemString = string.find(item,"^|c%x+|H(.+)|h%[.*%]")
+		local itemId = ({strsplit(":", itemString)})[2]
+		local itemName, itemLink, itemRarity, iLevel, itemMinLevel, itemType, itemSubType, itemStackCount,itemEquipLoc, itemTexture = GetItemInfo(itemId) 
+		local spellId = link:gmatch("enchant:(.*)[[]")();
+		local color = tostring(self.rarity[itemRarity and itemRarity+1 or 1])
+		 name = format(template.color,color,name)
+		 output = output .. format( template.item, self.recipieUrl, spellId, name.." ["..tostring(iLevel).."]")
+	end
   end
  end
 
